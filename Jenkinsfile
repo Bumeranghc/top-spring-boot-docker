@@ -38,7 +38,7 @@ pipeline {
                     dockerImage.run('-p 1234:8080 -h demo --name demo')	
 					httpStatus = sh(script: "curl -s -w '%{http_code}' localhost:1234 -o /dev/null", returnStdout: true)
 					if (httpStatus != "200" && httpStatus != "201" ) {
-						echo "Service error with status code = ${httpStatus} when calling ${ppcUrl}"
+						echo "Service error with status code = ${httpStatus}"
 						error("notify error")
 					} else {
 						echo "Service OK with status: ${httpStatus}"
