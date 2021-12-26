@@ -28,7 +28,8 @@ pipeline {
         stage ('Build') {
             steps {
                 script {
-                    sh './mvnw -B -DskipTests clean package'
+                    checkout scm
+					sh './mvnw -B -DskipTests clean package'
 					dockerImage=docker.build "test"
                 }
             }
