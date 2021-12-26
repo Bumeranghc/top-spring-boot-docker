@@ -20,8 +20,9 @@ pipeline {
 			}
 			options { timeout(time: 30, unit: 'MINUTES') }
 			steps {
-				sh 'chmod -R a+rw test/run.sh'
-				sh 'test/run.sh'
+				//sh 'chmod -R a+rw test/run.sh'
+				//sh 'test/run.sh'
+				echo 'test'
 			}
 		}
 
@@ -30,15 +31,16 @@ pipeline {
 	post {
 		changed {
 			script {
-				slackSend(
-						color: (currentBuild.currentResult == 'SUCCESS') ? 'good' : 'danger',
-						channel: '#sagan-content',
-						message: "${currentBuild.fullDisplayName} - `${currentBuild.currentResult}`\n${env.BUILD_URL}")
-				emailext(
-						subject: "[${currentBuild.fullDisplayName}] ${currentBuild.currentResult}",
-						mimeType: 'text/html',
-						recipientProviders: [[$class: 'CulpritsRecipientProvider'], [$class: 'RequesterRecipientProvider']],
-						body: "<a href=\"${env.BUILD_URL}\">${currentBuild.fullDisplayName} is reported as ${currentBuild.currentResult}</a>")
+				//slackSend(
+				//		color: (currentBuild.currentResult == 'SUCCESS') ? 'good' : 'danger',
+				//		channel: '#sagan-content',
+				//		message: "${currentBuild.fullDisplayName} - `${currentBuild.currentResult}`\n${env.BUILD_URL}")
+				//emailext(
+				//		subject: "[${currentBuild.fullDisplayName}] ${currentBuild.currentResult}",
+				//		mimeType: 'text/html',
+				//		recipientProviders: [[$class: 'CulpritsRecipientProvider'], [$class: 'RequesterRecipientProvider']],
+				//		body: "<a href=\"${env.BUILD_URL}\">${currentBuild.fullDisplayName} is reported as ${currentBuild.currentResult}</a>")
+				echo 'test2'
 			}
 		}
 	}
