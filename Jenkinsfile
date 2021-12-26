@@ -35,8 +35,7 @@ pipeline {
 		stage ('REST test') {
             steps {
                 script {
-                        dockerImage.run('-p 1234:8080 -h demo --name demo')						
-                    }
+                    dockerImage.run('-p 1234:8080 -h demo --name demo')						
                 }
             }
         }
