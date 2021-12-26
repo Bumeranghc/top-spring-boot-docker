@@ -869,6 +869,16 @@ node {
 
 For a (realistic) docker repository that needs authentication in the build server, you can add credentials to the `docker` object by using `docker.withCredentials(...)`.
 
+In Windows with WSL2 uou can use Jenkins container for building:
+
+====
+[source,bash]
+----
+docker run -u root --name jenkins_lts -p 8080:8080 -p 50000:50000 -v <your_local_jenkins_settings_directory>:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -v /mnt/wsl/docker-desktop/cli-tools/usr/bin/docker:/usr/bin/docker -v /mnt/wsl/docker-desktop/cli-tools/usr/bin/com.docker.cli:/usr/bin/com.docker.cli jenkins/jenkins:lts-jdk8
+----
+====
+
+
 == Buildpacks
 
 NOTE: The Spring Boot Maven and Gradle plugins use buildpacks in exactly the same way that the `pack` CLI does in the following examples.
