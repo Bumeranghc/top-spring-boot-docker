@@ -35,11 +35,15 @@ pipeline {
 		stage ('REST test') {
             steps {
                 script {
-                    dockerImage.run('-p 1234:8080 --name demo')
-					sh "sleep 5"
-					def response = httpRequest "http://localhost:1234/actuator/health"
-					println('Status: '+response.status)
-					println('Response: '+response.content)			
+                    dockerImage.withRun('-p 8080:1234 --name demo')	{
+						httpStatus = sh(script: "sleep 5 && curl -s localhost:1234/actuator/health", returnStdout: true).trim()
+						echo "Exit status: ${httpStatus}"
+						if (httpStatus == 0) {
+							echo "Up and running"
+						} else {
+							echo "Down"
+						}
+					}					
                 }
             }
         }
