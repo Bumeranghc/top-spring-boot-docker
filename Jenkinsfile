@@ -36,7 +36,7 @@ pipeline {
             steps {
                 script {
                     dockerImage.run('-p 1234:8080 -h demo --name demo')	
-					httpStatus = sh(script: "curl -s -w '%{http_code}' localhost:1234 -o /dev/null", returnStdout: true)
+					httpStatus = sh(script: " curl --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 40 -w '%{http_code}' localhost:1234 -o /dev/null", returnStdout: true)
 					if (httpStatus != "200" && httpStatus != "201" ) {
 						echo "Service error with status code = ${httpStatus}"
 						error("notify error")
