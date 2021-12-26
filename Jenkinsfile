@@ -39,12 +39,7 @@ pipeline {
 						sh "sleep 5"
 						final String url = "http://localhost:1234/actuator/health"
 						final String httpStatus = sh(script: "curl -s $url", returnStdout: true).trim()
-						echo "Exit status: ${httpStatus}"
-						if (httpStatus == 0) {
-							echo "Up and running"
-						} else {
-							echo "Down"
-						}
+						echo httpStatus
 					}					
                 }
             }
