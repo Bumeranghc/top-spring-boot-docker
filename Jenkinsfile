@@ -28,7 +28,9 @@ pipeline {
                 script {
                     checkout scm
 					sh 'cd demo && ./mvnw -B -DskipTests clean package'
-					dockerImage=docker.build("bumeranghc/springbootdemo", "-f demo/Dockerfile ./demo").push()
+					docker.withRegistry('', 'DockerHubBumeranghc') {
+                        dockerImage=docker.build("bumeranghc/springbootdemo", "-f demo/Dockerfile ./demo").push()
+                    }
                 }
             }
         }
