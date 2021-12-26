@@ -36,9 +36,10 @@ pipeline {
             steps {
                 script {
                     dockerImage.withRun('-p 1234:8080 --name demo')	{
-						httpStatus = sh(script: "sleep 5 && curl -s localhost:1234/actuator/health | grep -q '{\"status\":\"UP\"}'", returnStatus: true) == 0
+						hostIp = sh(script: "docker inspect -f {{.NetworkSettings.IPAddress}} demo", returnStdout: true).trim()
+						httpStatus = sh(script: "sleep 5 && curl -s ${hostIp}:1234/actuator/health | grep -q '{\"status\":\"UP\"}'", returnStatus: true) == 0
 						echo "Exit status: ${httpStatus}"
-						if (httpStatus == 0) {
+						if (httpStatus) {
 							echo "Up and running"
 						} else {
 							echo "Down"
