@@ -28,10 +28,30 @@ pipeline {
                 script {
                     checkout scm
 					sh 'cd demo && ./mvnw -B -DskipTests clean package'
-					docker.withRegistry('', 'DockerHubBumeranghc') {
-                        dockerImage=docker.build("bumeranghc/springbootdemo", "-f demo/Dockerfile ./demo").push()
+					dockerImage=docker.build("bumeranghc/springbootdemo" + ":$BUILD_NUMBER", "-f demo/Dockerfile ./demo").push()
+                }
+            }
+        }
+		stage ('REST test') {
+            steps {
+                script {
+                        dockerImage.run('-p 1234:8080 -h demo --name demo')						
                     }
                 }
+            }
+        }
+		stage ('Deploy') {
+            steps {
+                script {
+                        docker.withRegistry('', 'DockerHubBumeranghc') {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+        stage ('Clean') {
+            steps {
+                sh "docker rmi bumeranghc/springbootdemo:$BUILD_NUMBER"
             }
         }
 	}
