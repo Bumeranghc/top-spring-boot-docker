@@ -11,10 +11,6 @@ pipeline {
 	}
 
 	stages {
-		stage('Initialize Docker'){
-        	def dockerHome = tool 'myDocker'
-        	env.PATH = "${dockerHome}/bin:${env.PATH}"
-   		}
 		stage("test: baseline (jdk8)") {
 			agent {
 				docker {
