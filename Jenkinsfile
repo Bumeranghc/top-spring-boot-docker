@@ -20,7 +20,7 @@ pipeline {
 			}
 			options { timeout(time: 30, unit: 'MINUTES') }
 			steps {
-				sh 'cd test && chmod -R a+rw run.sh && ./run.sh'
+				sh 'cd test && chmod -R a+rw run.sh && bash run.sh'
 			}
 		}
         stage ('Build') {
