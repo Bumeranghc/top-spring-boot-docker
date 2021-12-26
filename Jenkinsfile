@@ -26,10 +26,12 @@ pipeline {
 			}
 		}
 		stage("Build image") {
-			script {
-				checkout scm
-				sh './mvnw -B -DskipTests clean package'
-				docker.build("test")
+			agent {
+				node {
+					checkout scm
+					sh './mvnw -B -DskipTests clean package'
+					docker.build("test")
+				}
 			}
 		}
 	}
