@@ -35,11 +35,11 @@ pipeline {
 		stage ('REST test') {
             steps {
                 script {
-                    dockerImage.run('-p 1234:8080 -h demo --name demo')
+                    dockerImage.run('-p 1234:8080 --name demo')
 					sh "sleep 5"
 					final String url = "http://localhost:1234/actuator/health"
 					final String httpStatus = sh(script: "curl -s -o /dev/null -w \"%{http_code}\" $url", returnStdout: true).trim()
-					echo httpStatus				
+					echo "TEST!"				
                 }
             }
         }
