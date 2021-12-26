@@ -36,12 +36,12 @@ pipeline {
             steps {
                 script {
                     dockerImage.withRun('-p 1234:8080 -h demo --name demo')	{
-						httpStatus = sh(script: 'sleep 5 && curl -s localhost:1234/actuator/health | grep -q "{\"status\":\"UP\"}" && echo "UP" || ( echo DOWN )', returnStdout: true)
-					}
-					if (httpStatus == "UP") {
-						echo "Up and running"
-					} else {
-						echo "Down"
+						httpStatus = sh(script: 'sleep 5 && curl -s localhost:1234/actuator/health | grep -q "{\"status\":\"UP\"}" && echo UP || ( echo DOWN )', returnStdout: true)
+						if (httpStatus == "UP") {
+							echo "Up and running"
+						} else {
+							echo "Down"
+						}
 					}
 					sh "docker rmi demo"					
                 }
