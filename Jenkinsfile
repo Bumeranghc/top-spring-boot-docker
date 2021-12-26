@@ -78,7 +78,7 @@ pipeline {
 				//		mimeType: 'text/html',
 				//		recipientProviders: [[$class: 'CulpritsRecipientProvider'], [$class: 'RequesterRecipientProvider']],
 				//		body: "<a href=\"${env.BUILD_URL}\">${currentBuild.fullDisplayName} is reported as ${currentBuild.currentResult}</a>")
-				echo 'test2'
+				echo 'Builded successful!'
 			}
 		}
 	}
