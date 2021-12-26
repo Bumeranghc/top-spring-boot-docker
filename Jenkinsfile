@@ -42,6 +42,7 @@ pipeline {
 							echo "Up and running"
 						} else {
 							echo "Down"
+							currentBuild.result = 'FAILURE'
 						}
 					}					
                 }
