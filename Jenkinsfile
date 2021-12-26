@@ -35,13 +35,13 @@ pipeline {
 		stage ('REST test') {
             steps {
                 script {
-                    dockerImage.run('-p 1234:8080 -h demo --name demo')	
-					httpStatus = sh(script: " curl --connect-timeout 5 --max-time 10 --retry 5 --retry-delay 0 --retry-max-time 40 -w '%{http_code}' localhost:1234 -o /dev/null", returnStdout: true)
-					if (httpStatus != "200" && httpStatus != "201" ) {
-						echo "Service error with status code = ${httpStatus}"
-						error("notify error")
+                    dockerImage.wuthRun('-p 1234:8080 -h demo --name demo')	{
+						httpStatus = sh(script: 'sleep 5 && curl -s localhost:1234/actuator/health | grep -q "{\"status\":\"UP\"}" && echo "UP" || ( echo DOWN )', returnStdout: true)
+					}
+					if (httpStatus == "UP") {
+						echo "Up and running"
 					} else {
-						echo "Service OK with status: ${httpStatus}"
+						echo "Down"
 					}
 					sh "docker rmi demo"					
                 }
