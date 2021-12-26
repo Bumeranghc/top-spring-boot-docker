@@ -1,5 +1,5 @@
 pipeline {
-	agent any
+	agent none
 
 	triggers {
 		pollSCM 'H/10 * * * *'
@@ -25,11 +25,12 @@ pipeline {
 				echo 'test'
 			}
 		}
-		stage("Build image") {
-			steps {
-				sh './mvnw -B -DskipTests clean package'
-			}
-		}
+	}
+
+	node {
+    	checkout scm
+    	sh './mvnw -B -DskipTests clean package'
+    	docker.build("myorg/myapp").push()
 	}
 
 	post {
