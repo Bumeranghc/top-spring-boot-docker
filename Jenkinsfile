@@ -36,7 +36,9 @@ pipeline {
             steps {
                 script {
                     dockerImage.withRun('-p 1234:8080 --name demo')	{
-						httpStatus = sh(script: "sleep 5 && curl -s localhost:1234/actuator/health", returnStdout: true)
+						sh "sleep 5"
+						final String url = "http://localhost:1234/actuator/health"
+						final String httpStatus = sh(script: "curl -s $url", returnStdout: true).trim()
 						echo "Exit status: ${httpStatus}"
 						if (httpStatus == 0) {
 							echo "Up and running"
