@@ -20,6 +20,7 @@ pipeline {
 			}
 			options { timeout(time: 30, unit: 'MINUTES') }
 			steps {
+				sh 'chmod -R a+rw test/run.sh'
 				sh 'test/run.sh'
 			}
 		}
