@@ -36,14 +36,13 @@ pipeline {
             steps {
                 script {
                     dockerImage.run('-p 1234:8080 -h demo --name demo')	
-					waitUntil {
-						try {         
-							sh "curl -s --head  --request GET  localhost:1234 | grep '200'"
-							return true
-						} catch (Exception e) {
-								return false
-						}
-              		}
+					httpStatus = sh(script: "curl -s -w '%{http_code}' localhost:1234 -o /dev/null", returnStdout: true)
+					if (httpStatus != "200" && httpStatus != "201" ) {
+						echo "Service error with status code = ${httpStatus} when calling ${ppcUrl}"
+						error("notify error")
+					} else {
+						echo "Service OK with status: ${httpStatus}"
+					}
 					sh "docker rmi demo"					
                 }
             }
