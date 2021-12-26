@@ -35,8 +35,8 @@ pipeline {
 		stage ('REST test') {
             steps {
                 script {
-                    dockerImage.withRun('-p 1234:8080 -h demo --name demo')	{
-						httpStatus = sh(script: 'sleep 5 && curl -s localhost:1234/actuator/health | grep -q "UP"', returnStatus: true)  == 0
+                    dockerImage.withRun('-p 1234:8080 --name demo')	{
+						httpStatus = sh(script: 'sleep 5 && curl -s localhost:1234/actuator/health | grep -q "{\"status\":\"UP\"}"', returnStatus: true) == 0
 						echo "Exit status: ${httpStatus}"
 						if (httpStatus == 0) {
 							echo "Up and running"
