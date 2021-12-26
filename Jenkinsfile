@@ -25,13 +25,14 @@ pipeline {
 				echo 'test'
 			}
 		}
-		stage("Build") {
-			node {
-				checkout scm
-				sh './mvnw -B -DskipTests clean package'
-				docker.build("myorg/myapp").push()
-			}
-		}
+        stage ('Build') {
+            steps {
+                script {
+                    sh './mvnw -B -DskipTests clean package'
+					dockerImage=docker.build "test"
+                }
+            }
+        }
 	}
 
 	post {
