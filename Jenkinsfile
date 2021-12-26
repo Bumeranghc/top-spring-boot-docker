@@ -25,6 +25,12 @@ pipeline {
 				echo 'test'
 			}
 		}
+		stage("Build image") {
+			steps {
+				sh './mvnw -B -DskipTests clean package'
+				docker.build("test")
+			}
+		}
 
 	}
 
