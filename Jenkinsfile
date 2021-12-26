@@ -35,7 +35,16 @@ pipeline {
 		stage ('REST test') {
             steps {
                 script {
-                    dockerImage.run('-p 1234:8080 -h demo --name demo')						
+                    dockerImage.run('-p 1234:8080 -h demo --name demo')	
+					waitUntil {
+						try {         
+							sh "curl -s --head  --request GET  localhost:1234 | grep '200'"
+							return true
+						} catch (Exception e) {
+								return false
+						}
+              		}
+					sh "docker rmi demo"					
                 }
             }
         }
