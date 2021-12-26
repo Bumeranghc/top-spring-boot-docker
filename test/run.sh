@@ -9,6 +9,4 @@ exit $ret
 fi
 rm -rf target
 
-rm -rf target
-
 exit
