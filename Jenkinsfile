@@ -29,7 +29,7 @@ pipeline {
             steps {
                 script {
                     checkout scm
-					sh './mvnw -B -DskipTests clean package'
+					sh 'cd demo && ./mvnw -B -DskipTests clean package'
 					dockerImage=docker.build "test"
                 }
             }
