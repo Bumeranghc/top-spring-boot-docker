@@ -25,12 +25,13 @@ pipeline {
 				echo 'test'
 			}
 		}
-	}
-
-	node {
-		checkout scm
-		sh './mvnw -B -DskipTests clean package'
-		docker.build("test")
+		stage("Build image") {
+			node {
+				checkout scm
+				sh './mvnw -B -DskipTests clean package'
+				docker.build("test")
+			}
+		}
 	}
 
 	post {
