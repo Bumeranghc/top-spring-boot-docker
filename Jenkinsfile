@@ -26,9 +26,11 @@ pipeline {
 			}
 		}
 		stage("Build image") {
-			script {
-				sh './mvnw -B -DskipTests clean package'
-				docker.build("test")
+			steps {
+				script {
+					sh './mvnw -B -DskipTests clean package'
+					docker.build("test")
+				}
 			}
 		}
 
